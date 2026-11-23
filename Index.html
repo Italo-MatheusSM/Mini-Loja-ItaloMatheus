@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cafés especiais, acessórios e novidades da Casa do Grão.">
+  <title>Casa do Grão — Cafés especiais</title>
+  <link rel="stylesheet" href="Index.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="#inicio" aria-label="Casa do Grão, início">
+        <span class="brand-mark" aria-hidden="true">CG</span>
+        <span>CASA <em>DO GRÃO</em></span>
+      </a>
+      <nav class="site-tabs" role="tablist" aria-label="Seções">
+        <button class="tab-button" id="catalog-tab" type="button" role="tab" aria-selected="true" aria-controls="catalog-panel" tabindex="0">Catálogo</button>
+        <button class="tab-button" id="registrations-tab" type="button" role="tab" aria-selected="false" aria-controls="registrations-panel" tabindex="-1">Gerenciar</button>
+      </nav>
+    </div>
+  </header>
+
+  <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="illustration-mug" viewBox="0 0 64 64">
+      <path d="M13 18h31v25a8 8 0 0 1-8 8H21a8 8 0 0 1-8-8V18Z" />
+      <path d="M44 24h5a7 7 0 0 1 0 14h-5M20 11v4m9-4v4m9-4v4" />
+    </symbol>
+    <symbol id="illustration-package" viewBox="0 0 64 64">
+      <path d="m10 20 22-11 22 11v25L32 56 10 45V20Z" />
+      <path d="m10 20 22 11 22-11M32 31v25m-11-42 22 11" />
+    </symbol>
+    <symbol id="illustration-coffee" viewBox="0 0 64 64">
+      <path d="M17 10h30l4 44H13l4-44Z" />
+      <path d="M17 18h30M22 10l2 8m18-8-2 8M23 32c5-6 13-6 18 0-5 6-13 6-18 0Z" />
+      <path d="M26 32h12m-6-4v8" />
+    </symbol>
+    <symbol id="illustration-dripper" viewBox="0 0 64 64">
+      <path d="M13 14h38L39 39H25L13 14Z" />
+      <path d="M25 39h14l5 14H20l5-14Zm-6-17h26m-21 6h16" />
+    </symbol>
+    <symbol id="illustration-beans" viewBox="0 0 64 64">
+      <path d="M16 12h32l4 42H12l4-42Z" />
+      <path d="M16 20h32M22 36c3-8 17-8 20 0s-7 12-13 9-10-3-7-9Z" />
+      <path d="M31 31c-2 4-2 8 1 13" />
+    </symbol>
+  </svg>
+
+  <main class="container" id="inicio">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-content">
+        <p class="eyebrow">Torra fresca. Origem brasileira.</p>
+        <h1 id="page-title">Um bom dia começa<br>com café de verdade.</h1>
+        <p>Pequenos lotes, produtores incríveis e tudo para preparar sua xícara favorita, do nosso balcão para sua casa.</p>
+        <button class="intro-link" id="show-catalog" type="button">Descubra nossos cafés <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+    <p class="api-message" id="api-message" role="status" aria-live="polite" hidden></p>
+
+    <section class="tab-panel" id="catalog-panel" role="tabpanel" aria-labelledby="catalog-tab" tabindex="0">
+      <section class="section" id="catalogo" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Feitos para sua próxima pausa</p>
+            <h2 id="catalog-title">Da nossa torra para sua xícara</h2>
+          </div>
+          <span class="item-count" id="product-count" aria-live="polite"></span>
+        </div>
+        <div class="product-grid" id="product-list"></div>
+        <p class="empty-state" id="product-empty" hidden>Nenhum produto cadastrado.</p>
+      </section>
+    </section>
+
+    <section class="tab-panel" id="registrations-panel" role="tabpanel" aria-labelledby="registrations-tab" tabindex="0" hidden>
+      <section class="section forms-section" aria-label="Cadastros">
+        <div class="form-card" id="cadastro-produto">
+          <p class="eyebrow">Vitrine</p>
+          <h2>Adicionar um café ou acessório</h2>
+          <form id="product-form">
+            <label for="product-name">Nome do produto</label>
+            <input id="product-name" name="name" type="text" maxlength="80" required>
+
+            <label for="product-price">Preço</label>
+            <div class="price-input">
+              <span aria-hidden="true">R$</span>
+              <input id="product-price" name="price" type="number" min="0.01" max="9999999.99" step="0.01" placeholder="0,00" required>
+            </div>
+
+            <label for="product-description">Origem, notas e detalhes</label>
+            <textarea id="product-description" name="description" rows="3" maxlength="240" required></textarea>
+
+            <button type="submit">Adicionar à vitrine</button>
+            <p class="form-message" id="product-message" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="form-card" id="cadastro-cliente">
+          <p class="eyebrow">Clube Casa do Grão</p>
+          <h2>Cadastrar cliente</h2>
+          <form id="customer-form">
+            <label for="customer-name">Nome</label>
+            <input id="customer-name" name="name" type="text" maxlength="100" required>
+
+            <label for="customer-cpf">CPF</label>
+            <input id="customer-cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required>
+
+            <label for="customer-email">E-mail</label>
+            <input id="customer-email" name="email" type="email" maxlength="120" placeholder="nome@exemplo.com" required>
+
+            <button type="submit">Entrar para o clube</button>
+            <p class="form-message" id="customer-message" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section product-admin-section" aria-labelledby="product-admin-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Sua vitrine</p>
+            <h2 id="product-admin-title">Cafés e acessórios cadastrados</h2>
+          </div>
+          <span class="item-count" id="product-admin-count" aria-live="polite"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="management-table">
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="product-admin-list"></tbody>
+          </table>
+          <p class="empty-state" id="product-admin-empty" hidden>Nenhum produto cadastrado.</p>
+        </div>
+        <p class="form-message section-message" id="product-delete-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="section customer-section" aria-labelledby="customers-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Comunidade</p>
+            <h2 id="customers-title">Clientes do clube</h2>
+          </div>
+          <span class="item-count" id="customer-count" aria-live="polite"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="customer-list"></tbody>
+          </table>
+          <p class="empty-state" id="customer-empty">Ainda não há clientes cadastrados.</p>
+        </div>
+        <p class="form-message section-message" id="customer-delete-message" role="status" aria-live="polite"></p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <strong>CASA DO GRÃO</strong>
+      <span>Café bom aproxima. Obrigado por fazer parte da nossa mesa.</span>
+    </div>
+  </footer>
+
+  <script>
+    const apiUrl = "Cadastro.php";
+    const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+    const availableIllustrations = new Set([
+      "coffee", "dripper", "beans", "mug", "package"
+    ]);
+    const apiMessage = document.getElementById("api-message");
+    let products = [];
+    let customers = [];
+
+    async function requestApi(method, payload = null, query = "") {
+      const options = { method, headers: {} };
+      if (payload !== null) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(payload);
+      }
+
+      const response = await fetch(query ? `${apiUrl}?${query}` : apiUrl, options);
+      let result;
+      try {
+        result = await response.json();
+      } catch (error) {
+        throw new Error("A resposta do servidor está inválida. Verifique a configuração do PHP.");
+      }
+      if (!response.ok) {
+        throw new Error(result.error || "Não foi possível concluir a operação.");
+      }
+      return result;
+    }
+
+    function showApiMessage(message, isError = false) {
+      apiMessage.textContent = message;
+      apiMessage.hidden = message === "";
+      apiMessage.classList.toggle("is-error", isError);
+    }
+
+    function makeIllustration(name) {
+      const illustrationName = availableIllustrations.has(name) ? name : "package";
+      const illustration = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      illustration.classList.add("product-illustration");
+      illustration.setAttribute("viewBox", "0 0 64 64");
+      illustration.setAttribute("aria-hidden", "true");
+      const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      use.setAttribute("href", `#illustration-${illustrationName}`);
+      illustration.append(use);
+      return illustration;
+    }
+
+    function renderProducts() {
+      const list = document.getElementById("product-list");
+      const managementList = document.getElementById("product-admin-list");
+      list.replaceChildren();
+      managementList.replaceChildren();
+
+      products.forEach((product) => {
+        const illustrationName = availableIllustrations.has(product.illustration) ? product.illustration : "package";
+        const card = document.createElement("article");
+        card.className = "product-card";
+        const visual = document.createElement("div");
+        visual.className = `product-visual visual-${illustrationName}`;
+        visual.append(makeIllustration(illustrationName));
+        const title = document.createElement("h3");
+        title.textContent = product.name;
+        const description = document.createElement("p");
+        description.textContent = product.description;
+        const price = document.createElement("strong");
+        price.className = "product-price";
+        price.textContent = currency.format(Number(product.price));
+        card.append(visual, title, description, price);
+        list.append(card);
+
+        const row = document.createElement("tr");
+        const productCell = document.createElement("td");
+        const productInfo = document.createElement("div");
+        productInfo.className = "management-product";
+        const thumbnail = document.createElement("div");
+        thumbnail.className = `product-thumb visual-${illustrationName}`;
+        thumbnail.append(makeIllustration(illustrationName));
+        const details = document.createElement("div");
+        const managementName = document.createElement("strong");
+        managementName.textContent = product.name;
+        const managementDescription = document.createElement("span");
+        managementDescription.textContent = product.description;
+        details.append(managementName, managementDescription);
+        productInfo.append(thumbnail, details);
+        productCell.append(productInfo);
+        const priceCell = document.createElement("td");
+        priceCell.textContent = currency.format(Number(product.price));
+        const actionCell = document.createElement("td");
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove-button";
+        removeButton.type = "button";
+        removeButton.textContent = "Remover";
+        removeButton.dataset.productId = String(product.id);
+        removeButton.setAttribute("aria-label", `Remover produto: ${product.name}`);
+        actionCell.append(removeButton);
+        row.append(productCell, priceCell, actionCell);
+        managementList.append(row);
+      });
+
+      const productCount = products.length;
+      document.getElementById("product-count").textContent =
+        `${productCount} ${productCount === 1 ? "produto" : "produtos"}`;
+      document.getElementById("product-admin-count").textContent =
+        `${productCount} ${productCount === 1 ? "produto" : "produtos"}`;
+      document.getElementById("product-empty").hidden = productCount > 0;
+      document.getElementById("product-admin-empty").hidden = productCount > 0;
+    }
+
+    function renderCustomers() {
+      const list = document.getElementById("customer-list");
+      list.replaceChildren();
+      customers.forEach((customer) => {
+        const row = document.createElement("tr");
+        [customer.name, customer.cpf, customer.email].forEach((value) => {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
+        });
+        const actionCell = document.createElement("td");
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove-button";
+        removeButton.type = "button";
+        removeButton.textContent = "Remover";
+        removeButton.dataset.customerId = String(customer.id);
+        removeButton.setAttribute("aria-label", `Remover cliente: ${customer.name}`);
+        actionCell.append(removeButton);
+        row.append(actionCell);
+        list.append(row);
+      });
+      document.getElementById("customer-empty").hidden = customers.length > 0;
+      document.getElementById("customer-count").textContent =
+        `${customers.length} ${customers.length === 1 ? "cliente" : "clientes"}`;
+    }
+
+    async function refreshData() {
+      const data = await requestApi("GET");
+      if (!Array.isArray(data.products) || !Array.isArray(data.customers)) {
+        throw new Error("O servidor retornou dados em um formato inválido.");
+      }
+      products = data.products;
+      customers = data.customers;
+      renderProducts();
+      renderCustomers();
+      showApiMessage("");
+    }
+
+    document.getElementById("product-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const data = new FormData(form);
+      const message = document.getElementById("product-message");
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      try {
+        await requestApi("POST", {
+          type: "product",
+          name: data.get("name").trim(),
+          price: Number(data.get("price")),
+          description: data.get("description").trim()
+        });
+        form.reset();
+        message.textContent = "Produto adicionado à vitrine.";
+        await refreshData();
+      } catch (error) {
+        message.textContent = error.message;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    document.getElementById("customer-cpf").addEventListener("input", (event) => {
+      const digits = event.currentTarget.value.replace(/\D/g, "").slice(0, 11);
+      event.currentTarget.value = digits
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    });
+
+    document.getElementById("customer-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const data = new FormData(form);
+      const message = document.getElementById("customer-message");
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      try {
+        await requestApi("POST", {
+          type: "customer",
+          name: data.get("name").trim(),
+          cpf: data.get("cpf"),
+          email: data.get("email").trim()
+        });
+        form.reset();
+        message.textContent = "Cliente cadastrado no clube Casa do Grão.";
+        await refreshData();
+      } catch (error) {
+        message.textContent = error.message;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    document.getElementById("product-admin-list").addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-product-id]");
+      if (!button) return;
+      const product = products.find((item) => String(item.id) === button.dataset.productId);
+      if (!product || !window.confirm(`Deseja remover o produto "${product.name}"?`)) return;
+
+      const message = document.getElementById("product-delete-message");
+      button.disabled = true;
+      try {
+        await requestApi("DELETE", null, `type=product&id=${encodeURIComponent(product.id)}`);
+        await refreshData();
+        message.textContent = "Produto removido do banco de dados.";
+      } catch (error) {
+        message.textContent = error.message;
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById("customer-list").addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-customer-id]");
+      if (!button) return;
+      const customer = customers.find((item) => String(item.id) === button.dataset.customerId);
+      if (!customer || !window.confirm(`Deseja remover o cliente "${customer.name}"?`)) return;
+
+      const message = document.getElementById("customer-delete-message");
+      button.disabled = true;
+      try {
+        await requestApi("DELETE", null, `type=customer&id=${encodeURIComponent(customer.id)}`);
+        await refreshData();
+        message.textContent = "Cliente removido do clube.";
+      } catch (error) {
+        message.textContent = error.message;
+        button.disabled = false;
+      }
+    });
+
+    const tabs = [
+      { button: document.getElementById("catalog-tab"), panel: document.getElementById("catalog-panel") },
+      { button: document.getElementById("registrations-tab"), panel: document.getElementById("registrations-panel") }
+    ];
+
+    function activateTab(activeTab, moveFocus) {
+      tabs.forEach(({ button, panel }) => {
+        const isActive = button === activeTab;
+        button.setAttribute("aria-selected", String(isActive));
+        button.tabIndex = isActive ? 0 : -1;
+        panel.hidden = !isActive;
+      });
+      if (moveFocus) activeTab.focus();
+    }
+
+    tabs.forEach(({ button }) => {
+      button.addEventListener("click", () => activateTab(button, false));
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const currentIndex = tabs.findIndex((tab) => tab.button === button);
+        const nextIndex = (currentIndex + (event.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length;
+        activateTab(tabs[nextIndex].button, true);
+      });
+    });
+
+    document.getElementById("show-catalog").addEventListener("click", () => {
+      activateTab(document.getElementById("catalog-tab"), false);
+    });
+
+    refreshData().catch((error) => {
+      showApiMessage(
+        `${error.message} Inicie o servidor PHP com SQLite e abra a página pelo endereço local indicado no README.`,
+        true
+      );
+    });
+  </script>
+</body>
+</html>
